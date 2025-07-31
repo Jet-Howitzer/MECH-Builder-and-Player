@@ -3,8 +3,9 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +28,15 @@ public class MechBuilderUI extends JFrame {
         setVisible(true);
     }
 
-    private List<WeaponComponent> loadComponents(String filePath) throws IOException, CsvValidationException {
+    private List<WeaponComponent> loadComponents(String resourcePath) throws IOException, CsvValidationException {
         List<WeaponComponent> list = new ArrayList<>();
-        try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
+        
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourcePath);
+        if (inputStream == null) {
+            throw new IOException("Resource not found: " + resourcePath);
+        }
+        
+        try (CSVReader reader = new CSVReader(new InputStreamReader(inputStream))) {
             String[] fields;
             reader.readNext(); // Skip header
 

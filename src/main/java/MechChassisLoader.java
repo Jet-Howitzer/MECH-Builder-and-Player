@@ -1,15 +1,21 @@
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class MechChassisLoader {
-    public static List<MechChassis> loadChassisFromCSV(String filePath) throws IOException, CsvValidationException {
+    public static List<MechChassis> loadChassisFromCSV(String resourcePath) throws IOException, CsvValidationException {
         List<MechChassis> chassisList = new ArrayList<>();
 
-        try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
+        InputStream inputStream = MechChassisLoader.class.getClassLoader().getResourceAsStream(resourcePath);
+        if (inputStream == null) {
+            throw new IOException("Resource not found: " + resourcePath);
+        }
+
+        try (CSVReader reader = new CSVReader(new InputStreamReader(inputStream))) {
             String[] header = reader.readNext(); // Read header row
             if (header == null) {
                 throw new IOException("CSV file is empty or improperly formatted.");

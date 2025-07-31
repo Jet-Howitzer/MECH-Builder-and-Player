@@ -1,7 +1,8 @@
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,10 +10,16 @@ public class ComponentManager {
 
     private List<WeaponComponent> components;
 
-    public ComponentManager(String filePath) {
+    public ComponentManager(String resourcePath) {
         components = new ArrayList<>();
 
-        try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourcePath);
+        if (inputStream == null) {
+            System.err.println("Resource not found: " + resourcePath);
+            return;
+        }
+
+        try (CSVReader reader = new CSVReader(new InputStreamReader(inputStream))) {
             String[] fields;
 
             // Skip the header
