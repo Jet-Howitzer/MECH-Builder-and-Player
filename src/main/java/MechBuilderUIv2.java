@@ -1,14 +1,19 @@
+import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class MechBuilderUIv2 extends JFrame {
     private List<MechChassis> chassisList;
+    private List<WeaponComponent> weaponsList;
     private JComboBox<String> chassisDropdown;
     private JPanel mechPanel;
     private JPanel centerPanel;
@@ -20,6 +25,7 @@ public class MechBuilderUIv2 extends JFrame {
         setLayout(new BorderLayout());
 
         chassisList = MechChassisLoader.loadChassisFromCSV(chassisFilePath);
+        weaponsList = loadWeapons("Weaponry Components.csv");
 
         chassisDropdown = new JComboBox<>();
         for (MechChassis chassis : chassisList) {
@@ -83,6 +89,9 @@ public class MechBuilderUIv2 extends JFrame {
             for (int i = 0; i < weaponSlots; i++) {
                 JComboBox<String> slot = new JComboBox<>();
                 slot.addItem("Empty");
+                for (WeaponComponent weapon : weaponsList) {
+                    slot.addItem(weapon.getName());
+                }
                 sectionPanel.add(slot);
             }
 
@@ -95,6 +104,45 @@ public class MechBuilderUIv2 extends JFrame {
 
         mechPanel.revalidate();
         mechPanel.repaint();
+    }
+
+    private List<WeaponComponent> loadWeapons(String resourcePath) throws IOException, CsvValidationException {
+        List<WeaponComponent> list = new ArrayList<>();
+        
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourcePath);
+        if (inputStream == null) {
+            throw new IOException("Resource not found: " + resourcePath);
+        }
+        
+        try (CSVReader reader = new CSVReader(new InputStreamReader(inputStream))) {
+            String[] fields;
+            reader.readNext(); // Skip header
+
+            while ((fields = reader.readNext()) != null) {
+                if (fields.length < 11) continue;
+
+                try {
+                    String name = fields[0];
+                    String type = fields[1];
+                    double tonnage = Double.parseDouble(fields[2]);
+                    int heat = Integer.parseInt(fields[3]);
+                    int damage = Integer.parseInt(fields[4]);
+                    int optimalRange = Integer.parseInt(fields[5]);
+                    int maxRange = Integer.parseInt(fields[6]);
+                    double recycle = Double.parseDouble(fields[7]);
+                    int accuracyPenalty = Integer.parseInt(fields[8]);
+                    int shotsPerSalvo = Integer.parseInt(fields[9]);
+                    double damageDrop = Double.parseDouble(fields[10]);
+
+                    list.add(new WeaponComponent(
+                        name, type, tonnage, heat, damage,
+                        optimalRange, maxRange, recycle,
+                        accuracyPenalty, shotsPerSalvo, damageDrop));
+                } catch (NumberFormatException ignored) {}
+            }
+        }
+
+        return list;
     }
 
     private static class GridPlacement {

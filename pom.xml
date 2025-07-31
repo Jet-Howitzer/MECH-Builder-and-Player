@@ -30,6 +30,25 @@
             <version>${opencsv.version}</version>
         </dependency>
 
+        <!-- OpenCSV transitive dependencies (explicitly included) -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.10.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -59,6 +78,9 @@
                 <version>${maven.exec.plugin.version}</version>
                 <configuration>
                     <mainClass>MechBuilderUIv2</mainClass>
+                    <includeProjectDependencies>true</includeProjectDependencies>
+                    <includePluginDependencies>false</includePluginDependencies>
+                    <classpathScope>compile</classpathScope>
                 </configuration>
             </plugin>
 
@@ -117,6 +139,9 @@
                         <artifactId>exec-maven-plugin</artifactId>
                         <configuration>
                             <mainClass>MechBuilderUI</mainClass>
+                            <includeProjectDependencies>true</includeProjectDependencies>
+                            <includePluginDependencies>false</includePluginDependencies>
+                            <classpathScope>compile</classpathScope>
                         </configuration>
                     </plugin>
                 </plugins>
