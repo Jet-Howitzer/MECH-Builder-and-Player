@@ -7,6 +7,8 @@ import com.mechbuilder.data.WeaponRepository;
 import com.mechbuilder.model.MechChassis;
 import com.mechbuilder.model.MechSection;
 import com.mechbuilder.model.WeaponComponent;
+import com.mechbuilder.ui.components.WeaponArsenalPanel;
+import com.mechbuilder.ui.dnd.MechSectionDropHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,6 +39,7 @@ public class MechBuilderUI extends JFrame {
     private JPanel mechPanel;
     private Map<String, JLabel> tonnageLabels;
     private Map<String, List<JComboBox<String>>> sectionDropdowns;
+    private WeaponArsenalPanel weaponArsenalPanel;
     
     public MechBuilderUI() throws IOException, CsvValidationException {
         // Initialize repositories
@@ -58,8 +61,8 @@ public class MechBuilderUI extends JFrame {
     }
     
     private void initializeUI() {
-        setTitle("Mech Builder - Unified Edition");
-        setSize(1400, 900);  // Wider to accommodate all sections
+        setTitle("Mech Builder - Unified Edition with Drag & Drop");
+        setSize(1600, 900);  // Wider to accommodate arsenal panel
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         
@@ -76,12 +79,28 @@ public class MechBuilderUI extends JFrame {
         
         add(topPanel, BorderLayout.NORTH);
         
+        // Main content area with mech layout and weapon arsenal
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        
         // Center panel for mech layout
         mechPanel = new JPanel(new GridBagLayout());
         JScrollPane scrollPane = new JScrollPane(mechPanel);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        add(scrollPane, BorderLayout.CENTER);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        
+        // Right panel for weapon arsenal
+        try {
+            weaponArsenalPanel = new WeaponArsenalPanel();
+            mainPanel.add(weaponArsenalPanel, BorderLayout.EAST);
+        } catch (IOException | CsvValidationException e) {
+            JOptionPane.showMessageDialog(this, 
+                "Error loading weapon arsenal: " + e.getMessage(), 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+        
+        add(mainPanel, BorderLayout.CENTER);
         
         setVisible(true);
     }
@@ -159,6 +178,10 @@ public class MechBuilderUI extends JFrame {
         sectionPanel.setBorder(BorderFactory.createTitledBorder(sectionName));
         sectionPanel.setMaximumSize(new Dimension(220, 400));
         
+        // Set up drag and drop for this section
+        MechSectionDropHandler dropHandler = new MechSectionDropHandler(section, sectionPanel);
+        sectionPanel.setTransferHandler(dropHandler);
+        
         // Section info display  
         int totalHardpoints = section.getEnergyHardpoints() + section.getBallisticHardpoints() + section.getMissileHardpoints();
         String hardpointText = totalHardpoints > 0 ? 
@@ -181,22 +204,39 @@ public class MechBuilderUI extends JFrame {
         int weaponHardpoints = section.getEnergyHardpoints() + section.getBallisticHardpoints() + section.getMissileHardpoints();
         
         if (weaponHardpoints > 0) {
-            // Section has weapon hardpoints - create weapon dropdowns
+            sectionPanel.add(Box.createVerticalStrut(3));
+            
+            // Create compact drop zones for each hardpoint
             for (int i = 0; i < weaponHardpoints; i++) {
-                JComboBox<String> dropdown = new JComboBox<>();
-                dropdown.addItem("Empty");
+                JPanel compactDropZone = new JPanel(new BorderLayout());
+                compactDropZone.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLoweredBevelBorder(),
+                    BorderFactory.createEmptyBorder(3, 6, 3, 6)
+                ));
+                compactDropZone.setBackground(new Color(250, 250, 250));
+                compactDropZone.setPreferredSize(new Dimension(200, 25));
+                compactDropZone.setMaximumSize(new Dimension(200, 25));
+                compactDropZone.setTransferHandler(dropHandler);
                 
-                // Add weapons to dropdown
-                for (WeaponComponent weapon : weaponsList) {
-                    dropdown.addItem(weapon.getName());
-                }
+                // Setup context menu for weapon removal
+                dropHandler.setupContextMenu(compactDropZone, i);
                 
-                dropdown.setMaximumSize(new Dimension(200, 25));
-                dropdown.setPreferredSize(new Dimension(200, 25));
-                dropdown.addActionListener(e -> updateSectionTonnage(sectionName));
+                // Add slot indicator
+                JLabel slotLabel = new JLabel((i + 1) + ":");
+                slotLabel.setFont(slotLabel.getFont().deriveFont(Font.BOLD, 10f));
+                slotLabel.setForeground(Color.DARK_GRAY);
+                slotLabel.setPreferredSize(new Dimension(15, 25));
                 
-                dropdowns.add(dropdown);
-                sectionPanel.add(dropdown);
+                // Add placeholder text for empty slot
+                JLabel placeholderLabel = new JLabel("Drop weapon here");
+                placeholderLabel.setFont(placeholderLabel.getFont().deriveFont(Font.ITALIC, 9f));
+                placeholderLabel.setForeground(Color.LIGHT_GRAY);
+                
+                compactDropZone.add(slotLabel, BorderLayout.WEST);
+                compactDropZone.add(placeholderLabel, BorderLayout.CENTER);
+                
+                sectionPanel.add(compactDropZone);
+                sectionPanel.add(Box.createVerticalStrut(2));
             }
         } else {
             // Section has no weapon hardpoints (like legs) - show info message
