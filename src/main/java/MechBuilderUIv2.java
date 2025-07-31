@@ -79,9 +79,10 @@ public class MechBuilderUIv2 extends JFrame {
             GridPlacement placement = sectionLayout.get(section);
             if (placement == null) continue;
 
-            JPanel sectionPanel = new JPanel();
-            sectionPanel.setLayout(new BoxLayout(sectionPanel, BoxLayout.Y_AXIS));
-            sectionPanel.setBorder(BorderFactory.createTitledBorder(section));
+                    JPanel sectionPanel = new JPanel();
+        sectionPanel.setLayout(new BoxLayout(sectionPanel, BoxLayout.Y_AXIS));
+        sectionPanel.setBorder(BorderFactory.createTitledBorder(section));
+        sectionPanel.setMaximumSize(new Dimension(220, 300)); // Prevent section from growing too large
 
             JLabel label = new JLabel("Weapon Slots: " + weaponSlots);
             sectionPanel.add(label);
@@ -92,6 +93,11 @@ public class MechBuilderUIv2 extends JFrame {
                 for (WeaponComponent weapon : weaponsList) {
                     slot.addItem(weapon.getName());
                 }
+                
+                // Set fixed size to prevent layout breaking
+                slot.setMaximumSize(new Dimension(200, 25));
+                slot.setPreferredSize(new Dimension(200, 25));
+                
                 sectionPanel.add(slot);
             }
 
