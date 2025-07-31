@@ -77,7 +77,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>${maven.exec.plugin.version}</version>
                 <configuration>
-                    <mainClass>com.mechbuilder.ui.MechBuilderUIv2</mainClass>
+                    <mainClass>com.mechbuilder.ui.MechBuilderUI</mainClass>
                     <includeProjectDependencies>true</includeProjectDependencies>
                     <includePluginDependencies>false</includePluginDependencies>
                     <classpathScope>compile</classpathScope>
@@ -94,7 +94,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.mechbuilder.ui.MechBuilderUIv2</mainClass>
+                            <mainClass>com.mechbuilder.ui.MechBuilderUI</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
