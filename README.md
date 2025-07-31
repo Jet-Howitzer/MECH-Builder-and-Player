@@ -20,6 +20,9 @@ Before running this application, ensure you have the following installed:
 
 - **Apache Maven 3.6 or higher**
   - Download from [Maven Downloads](https://maven.apache.org/download.cgi)
+  - **macOS**: Install with Homebrew: `brew install maven`
+  - **Windows**: Use Chocolatey: `choco install maven` or download manually
+  - **Linux**: Use package manager: `sudo apt install maven` (Ubuntu/Debian)
   - Verify installation: `mvn -version`
 
 ## 🛠️ Installation & Setup
@@ -59,10 +62,23 @@ mvn exec:java -P ui-v1
 java -jar target/mech-builder-and-player-1.0.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
-### Option 3: Run from IDE
+### Option 3: Run from IDE (When Maven is not available)
 1. Import the project into your IDE (IntelliJ IDEA, Eclipse, VS Code)
-2. Navigate to `src/main/java/MechBuilderUIv2.java`
-3. Run the `main` method
+2. **Add OpenCSV dependency manually**:
+   - Download `opencsv-5.8.jar` from [Maven Central](https://repo1.maven.org/maven2/com/opencsv/opencsv/5.8/)
+   - Add the JAR to your project's classpath/libraries
+3. Navigate to `src/main/java/MechBuilderUIv2.java`
+4. Run the `main` method
+
+### Option 4: Quick Test Without Maven
+If Maven is not installed, you can still test the code structure:
+```bash
+# Compile manually (after downloading OpenCSV JAR)
+javac -cp "path/to/opencsv-5.8.jar" src/main/java/*.java
+
+# Run (replace with actual path to OpenCSV JAR)
+java -cp "path/to/opencsv-5.8.jar:src/main/java:src/main/resources" MechBuilderUIv2
+```
 
 ## 📁 Project Structure
 
