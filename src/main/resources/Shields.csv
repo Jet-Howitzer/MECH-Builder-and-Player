@@ -1,0 +1,7 @@
+﻿Shield,HP,Recharge Rate,Recharge Delay,Tonnage,Heat Generated,Recharging Heat
+Aegis Class Barrier,500,25,5,6,20,2
+Bastion Wave Repeater,300,60,5,5,12,6
+Polaris Harmonic Screen,150,25,2,4,6,10
+Umbra Phase Curtain,60,10,0,4,3,30
+Zephyr Shield Matrix,200,50,2,5,8,15
+None,0,0,0,0,0,0
