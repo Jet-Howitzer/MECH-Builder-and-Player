@@ -1,4 +1,6 @@
 
+package com.mechbuilder.model;
+
 public class MechSection {
 	private String name;
     private int maxHitPoints;

@@ -1,5 +1,8 @@
+package com.mechbuilder.ui;
+
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import com.mechbuilder.model.WeaponComponent;
 
 import javax.swing.*;
 import java.awt.*;

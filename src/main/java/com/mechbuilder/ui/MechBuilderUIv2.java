@@ -1,12 +1,14 @@
-import com.opencsv.CSVReader;
+package com.mechbuilder.ui;
+
 import com.opencsv.exceptions.CsvValidationException;
+import com.mechbuilder.data.MechChassisRepository;
+import com.mechbuilder.data.WeaponRepository;
+import com.mechbuilder.model.MechChassis;
+import com.mechbuilder.model.WeaponComponent;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,14 +20,17 @@ public class MechBuilderUIv2 extends JFrame {
     private JPanel mechPanel;
     private JPanel centerPanel;
 
-    public MechBuilderUIv2(String chassisFilePath) throws IOException, CsvValidationException {
+    public MechBuilderUIv2() throws IOException, CsvValidationException {
         setTitle("Mech Builder v2");
         setSize(1200, 900);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        chassisList = MechChassisLoader.loadChassisFromCSV(chassisFilePath);
-        weaponsList = loadWeapons("Weaponry Components.csv");
+        MechChassisRepository chassisRepo = new MechChassisRepository();
+        WeaponRepository weaponRepo = new WeaponRepository();
+        
+        chassisList = chassisRepo.loadAll();
+        weaponsList = weaponRepo.loadAll();
 
         chassisDropdown = new JComboBox<>();
         for (MechChassis chassis : chassisList) {
@@ -112,44 +117,7 @@ public class MechBuilderUIv2 extends JFrame {
         mechPanel.repaint();
     }
 
-    private List<WeaponComponent> loadWeapons(String resourcePath) throws IOException, CsvValidationException {
-        List<WeaponComponent> list = new ArrayList<>();
-        
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourcePath);
-        if (inputStream == null) {
-            throw new IOException("Resource not found: " + resourcePath);
-        }
-        
-        try (CSVReader reader = new CSVReader(new InputStreamReader(inputStream))) {
-            String[] fields;
-            reader.readNext(); // Skip header
 
-            while ((fields = reader.readNext()) != null) {
-                if (fields.length < 11) continue;
-
-                try {
-                    String name = fields[0];
-                    String type = fields[1];
-                    double tonnage = Double.parseDouble(fields[2]);
-                    int heat = Integer.parseInt(fields[3]);
-                    int damage = Integer.parseInt(fields[4]);
-                    int optimalRange = Integer.parseInt(fields[5]);
-                    int maxRange = Integer.parseInt(fields[6]);
-                    double recycle = Double.parseDouble(fields[7]);
-                    int accuracyPenalty = Integer.parseInt(fields[8]);
-                    int shotsPerSalvo = Integer.parseInt(fields[9]);
-                    double damageDrop = Double.parseDouble(fields[10]);
-
-                    list.add(new WeaponComponent(
-                        name, type, tonnage, heat, damage,
-                        optimalRange, maxRange, recycle,
-                        accuracyPenalty, shotsPerSalvo, damageDrop));
-                } catch (NumberFormatException ignored) {}
-            }
-        }
-
-        return list;
-    }
 
     private static class GridPlacement {
         int x, y;
@@ -162,7 +130,7 @@ public class MechBuilderUIv2 extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
-                new MechBuilderUIv2("Mech Loadout Data.csv");
+                new MechBuilderUIv2();
             } catch (IOException | CsvValidationException e) {
                 e.printStackTrace();
             }

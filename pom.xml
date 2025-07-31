@@ -77,7 +77,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>${maven.exec.plugin.version}</version>
                 <configuration>
-                    <mainClass>MechBuilderUIv2</mainClass>
+                    <mainClass>com.mechbuilder.ui.MechBuilderUIv2</mainClass>
                     <includeProjectDependencies>true</includeProjectDependencies>
                     <includePluginDependencies>false</includePluginDependencies>
                     <classpathScope>compile</classpathScope>
@@ -94,7 +94,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>MechBuilderUIv2</mainClass>
+                            <mainClass>com.mechbuilder.ui.MechBuilderUIv2</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -138,7 +138,7 @@
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
                         <configuration>
-                            <mainClass>MechBuilderUI</mainClass>
+                            <mainClass>com.mechbuilder.ui.MechBuilderUI</mainClass>
                             <includeProjectDependencies>true</includeProjectDependencies>
                             <includePluginDependencies>false</includePluginDependencies>
                             <classpathScope>compile</classpathScope>

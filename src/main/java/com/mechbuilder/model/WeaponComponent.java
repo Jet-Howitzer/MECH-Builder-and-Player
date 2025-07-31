@@ -1,3 +1,5 @@
+package com.mechbuilder.model;
+
 public class WeaponComponent {
     private String name;
     private String type;         // e.g., Energy, Ballistic, Missile, System
