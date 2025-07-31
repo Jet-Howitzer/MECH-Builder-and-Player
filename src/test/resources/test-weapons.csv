@@ -1,0 +1,4 @@
+Name,Type,Tonnage,Heat Generation,Damage,Optimal Range,Max Range,Recycle Time,Accuracy Penalty,Shots per Salvo,Damage Drop
+Test Laser,Energy,1.0,3,5,200,400,2.5,0,1,0.0
+Test Cannon,Ballistic,5.0,1,10,100,300,4.0,1,1,0.1
+Test Missiles,Missile,3.0,2,8,150,450,3.0,0,4,0.05
