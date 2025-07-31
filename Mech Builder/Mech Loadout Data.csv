@@ -1,0 +1,35 @@
+﻿Light Mech,Chassis Size,Tonnage,Max Armor Tonnage,Hex Speed,L Arm Hardpoint,L Torso Hardpoint,Head Hardpoint,C Torso Hardpoint,R Torso Hardpoint,R Arm Hardpoint
+Vesper,Light,20,10,9,1,2,0,2,2,1
+Wraith II,Light,20,10,8,1,1,0,0,2,2
+Firefly,Light,25,15,7,3,0,0,0,0,3
+Jackdaw,Light,25,15,8,1,2,0,1,1,1
+Kestrel,Light,25,15,7,2,0,1,1,0,2
+Sentinel,Light,25,15,9,1,4,1,2,1,1
+Snapper,Light,25,15,10,4,2,0,0,2,4
+Grimshaw,Light,30,15,8,2,1,2,0,2,3
+Needleback,Light,30,15,6,2,1,0,1,1,2
+Viper,Light,30,15,7,2,0,1,1,3,1
+Jackal MK IV,Medium,35,20,5,3,2,0,0,4,1
+Vindicator m.3,Medium,35,20,5,2,2,1,0,2,2
+Scorpion,Medium,40,20,4,1,2,1,1,2,1
+Argent Vulture,Medium,45,25,5,2,2,1,1,2,2
+Black Mantle,Medium,50,25,4,3,3,0,0,1,1
+Javelin Mk IX,Medium,50,25,4,2,1,0,2,1,3
+Ravenhold,Medium,50,25,3,4,1,0,1,0,4
+Iron Wolf,Large,55,30,4,2,3,1,1,1,3
+Thunderhead,Large,60,30,3,1,1,1,1,2,3
+Templar,Large,65,35,4,4,0,1,0,4,2
+Babirusa,Large,70,35,4,1,3,1,2,3,2
+Gladius,Large,70,35,3,4,1,2,2,0,2
+Verdict,Large,70,35,3,3,1,2,2,1,2
+Gryphon,Large,75,40,4,2,3,1,1,3,2
+Havoc Lion,Large,80,40,2,2,3,0,1,3,2
+Judgment,Siege,85,45,3,3,2,0,3,2,2
+Dreadmaw MK V,Siege,90,45,3,4,1,0,4,1,4
+Polaris,Siege,90,45,2,3,3,2,0,4,5
+Trident,Siege,100,50,2,2,4,1,1,3,2
+Tyrant,Siege,100,50,1,4,2,1,1,5,2
+Andromeda,Siege,110,55,2,5,3,2,3,3,4
+Colossus,Siege,120,60,1,5,1,2,2,4,5
+Titan,Siege,140,70,1,6,5,2,3,5,6
+Ragnarok,Siege,150,75,1,7,6,4,4,6,7

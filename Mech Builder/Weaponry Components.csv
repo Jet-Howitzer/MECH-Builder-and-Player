@@ -1,0 +1,47 @@
+﻿name,type,tonnage,heatGeneration,damage,OptimalRange,MaxRange,RecycleTime,AccuracyPenalty,ShotsperSalvo,DamageDrop
+"Beacon, Ballistic",Ballistic,1,4,3,35,210,1,21,1,0
+"Cannon, 120mm",Ballistic,6,6,33,25,180,0.33,18,1,0
+"Cannon, 145mm",Ballistic,8,9,63,40,225,0.5,22,1,0
+"Cannon, 180mm",Ballistic,10,12,108,57,270,1,27,1,0
+"Cannon, 215mm",Ballistic,12,15,192,78,315,1,31,1,0
+"Gauss Rifle, X18",Ballistic,12,2,1633,872,1050,10,105,1,0
+"Gauss Rifle, X23",Ballistic,17,48,3008,1607,1425,15,142,1,0
+"Gauss Rifle, X27",Ballistic,22,56,4800,2564,1800,20,180,1,0
+"Howitzer, 240mm 'Brimstone'",Ballistic,16,18,560,11,120,4,12,4,0
+"Howitzer, 280mm 'Thunderclap'",Ballistic,19,21,770,15,135,4,13,4,0
+"Howitzer, 320mm 'Earthshaker'",Ballistic,22,24,980,18,150,4,15,4,0
+"Howitzer, 320mm 'Earthshaker' Atomics",Ballistic,22,24,5600,18,150,4,15,1,0
+MG 15mm,Ballistic,0.5,3,9,13,127,0.2,12,80,0
+MG 18mm,Ballistic,1,1,14,14,135,0.25,13,60,0
+MG 21mm,Ballistic,1.5,2,25,21,165,0.25,16,40,0
+"Mortar, M-052",Ballistic,3,10,30,5,10,0.25,5,4,0
+"Mortar, M-078",Ballistic,4,12,50,10,20,0.33,10,3,0
+"Mortar, M-113",Ballistic,5,15,70,15,30,0.5,15,2,0
+"Rotary, 45mm",Ballistic,7,6,19,19,157,0.125,15,30,0
+"Rotary, 55mm",Ballistic,9,8,26,23,172,0.17,17,25,0
+"Rotary, 70mm",Ballistic,11,10,36,28,187,0.25,18,20,0
+"Rotary, 90mm",Ballistic,13,12,54,37,217,0.25,21,15,0
+"Chem Laser, 4MW",Energy,2,2,4,15,23,0.25,10,1,0.5
+"Chem Laser, 6MW",Energy,4,3,6,20,32,0.25,15,1,0.5
+"Chem Laser, 8MW",Energy,6,4,8,25,41,0.25,20,1,0.5
+EM PC EPC-12,Energy,8,24,30,30,90,1,80,1,0.5
+EM PC EPC-34,Energy,10,30,45,40,130,1,75,1,0.5
+EM PC EPC-50S,Energy,8,30,45,50,140,1,35,1,0.5
+EM PC EPC-71,Energy,12,36,60,20,80,1,100,1,1
+"Flamethrower, T-45",Energy,2,4,8,2,4,0.25,2,2,4
+"Flamethrower, T-73",Energy,3,8,16,4,8,0.25,4,3,4
+"Flamethrower, T-99",Energy,4,12,24,6,12,0.25,6,4,4
+IPC-12,Energy,4,32,30,20,30,1,12,1,3
+IPC-22,Energy,7,64,80,25,52,1,15,1,3
+IPC-47,Energy,11,128,180,30,90,2,18,1,3
+"Laser, 04MW",Energy,1,4,4,15,19,0.5,10,1,1
+"Laser, 08MW",Energy,2,8,8,20,28,1,20,1,1
+"Laser, 12MW",Energy,4,12,12,24,36,1,30,1,1
+"Laser, 20MW",Energy,8,20,20,27,47,1,40,1,1
+"Laser, ER 07MW",Energy,4,8,7,40,54,1,50,1,0.5
+"Laser, ER 11MW",Energy,6,16,11,48,70,2,85,1,0.5
+"Laser, ER 19MW",Energy,10,24,19,54,92,1,135,1,0.5
+"Pulse Laser, 16MW",Energy,3,20,16,16,32,0.5,10,1,1
+"Pulse Laser, 24MW",Energy,5,30,24,24,48,0.5,20,1,1
+"Pulse Laser, 40MW",Energy,10,50,40,40,80,0.5,30,1,1
+TAG Laser,Energy,1,1,1,200,201,1,25,1,0.2
