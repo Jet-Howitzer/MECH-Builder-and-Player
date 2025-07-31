@@ -5,7 +5,7 @@ import com.mechbuilder.data.MechSectionFactory;
 import com.mechbuilder.model.Mech;
 import com.mechbuilder.model.MechChassis;
 import com.mechbuilder.model.MechSection;
-import com.mechbuilder.ui.MechBuilderUIv2;
+import com.mechbuilder.ui.MechBuilderUI;
 import com.opencsv.exceptions.CsvValidationException;
 
 import javax.swing.SwingUtilities;
@@ -27,7 +27,7 @@ public class MechBuilderApplication {
             // Normal mode - run the GUI
             SwingUtilities.invokeLater(() -> {
                 try {
-                    new MechBuilderUIv2();
+                    new MechBuilderUI();
                 } catch (IOException | CsvValidationException e) {
                     e.printStackTrace();
                 }

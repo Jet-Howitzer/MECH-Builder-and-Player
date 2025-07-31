@@ -49,7 +49,7 @@ mvn package
 
 ### Option 1: Run with Maven (Recommended)
 ```bash
-# Run the latest UI version (MechBuilderUIv2)
+# Run the unified UI version
 mvn exec:java
 
 # Run the original UI version
@@ -67,7 +67,7 @@ java -jar target/mech-builder-and-player-1.0.0-SNAPSHOT-jar-with-dependencies.ja
 2. **Add OpenCSV dependency manually**:
    - Download `opencsv-5.8.jar` from [Maven Central](https://repo1.maven.org/maven2/com/opencsv/opencsv/5.8/)
    - Add the JAR to your project's classpath/libraries
-3. Navigate to `src/main/java/MechBuilderUIv2.java`
+3. Navigate to `src/main/java/com/mechbuilder/ui/MechBuilderUI.java`
 4. Run the `main` method
 
 ### Option 4: Quick Test Without Maven
@@ -77,7 +77,7 @@ If Maven is not installed, you can still test the code structure:
 javac -cp "path/to/opencsv-5.8.jar" src/main/java/*.java
 
 # Run (replace with actual path to OpenCSV JAR)
-java -cp "path/to/opencsv-5.8.jar:src/main/java:src/main/resources" MechBuilderUIv2
+java -cp "path/to/opencsv-5.8.jar:src/main/java:src/main/resources" com.mechbuilder.ui.MechBuilderUI
 ```
 
 ## 📁 Project Structure
@@ -87,8 +87,7 @@ mech-builder-and-player/
 ├── src/
 │   ├── main/
 │   │   ├── java/                    # Java source files
-│   │   │   ├── MechBuilderUIv2.java # Main application UI
-│   │   │   ├── MechBuilderUI.java   # Original UI version
+│   │   │   ├── MechBuilderUI.java # Unified application UI
 │   │   │   ├── MechChassis.java     # Mech chassis model
 │   │   │   ├── WeaponComponent.java # Weapon component model
 │   │   │   ├── MechSection.java     # Mech section model
@@ -114,9 +113,10 @@ mech-builder-and-player/
 4. **Configure weapons** by selecting from dropdown menus in each section (future feature)
 5. **Monitor tonnage** and other specifications in real-time
 
-### Application Versions
-- **MechBuilderUIv2**: Latest version with dynamic chassis selection and grid layout
-- **MechBuilderUI**: Original version with fixed layout and weapon selection
+### Application Features
+- **MechBuilderUI**: Unified interface combining dynamic chassis selection with clean grid layout
+- **Dynamic Weapon Slots**: Weapon dropdowns adapt to each chassis's hardpoint configuration  
+- **Real-time Tonnage**: Live weight calculation per section and overall mech
 
 ## 🔧 Development
 

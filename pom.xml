@@ -111,7 +111,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>MechBuilderUIv2</mainClass>
+                            <mainClass>com.mechbuilder.ui.MechBuilderUI</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
