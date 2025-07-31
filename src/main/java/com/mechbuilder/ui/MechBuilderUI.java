@@ -59,7 +59,7 @@ public class MechBuilderUI extends JFrame {
     
     private void initializeUI() {
         setTitle("Mech Builder - Unified Edition");
-        setSize(1200, 1000);
+        setSize(1400, 900);  // Wider to accommodate all sections
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         
@@ -79,6 +79,9 @@ public class MechBuilderUI extends JFrame {
         // Center panel for mech layout
         mechPanel = new JPanel(new GridBagLayout());
         JScrollPane scrollPane = new JScrollPane(mechPanel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setPreferredSize(new Dimension(1350, 800));
         add(scrollPane, BorderLayout.CENTER);
         
         setVisible(true);
@@ -155,7 +158,8 @@ public class MechBuilderUI extends JFrame {
         JPanel sectionPanel = new JPanel();
         sectionPanel.setLayout(new BoxLayout(sectionPanel, BoxLayout.Y_AXIS));
         sectionPanel.setBorder(BorderFactory.createTitledBorder(sectionName));
-        sectionPanel.setMaximumSize(new Dimension(220, 400));
+        sectionPanel.setPreferredSize(new Dimension(240, 350));
+        sectionPanel.setMinimumSize(new Dimension(240, 350));
         
         // Section info display  
         int totalHardpoints = section.getEnergyHardpoints() + section.getBallisticHardpoints() + section.getMissileHardpoints();
@@ -214,6 +218,9 @@ public class MechBuilderUI extends JFrame {
         gbc.gridheight = gridheight;
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.NORTH;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
         
         mechPanel.add(sectionPanel, gbc);
     }
