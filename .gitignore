@@ -50,10 +50,10 @@ dist/
 ehthumbs.db
 Thumbs.db
 
-# Maven
-.mvn/
-mvnw
-mvnw.cmd
+# Maven (excluding wrapper files which should be committed)
+# .mvn/ - keep wrapper files
+# mvnw - keep wrapper script  
+# mvnw.cmd - keep wrapper script
 
 # Gradle
 .gradle/

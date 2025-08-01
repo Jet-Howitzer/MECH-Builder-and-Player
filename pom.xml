@@ -127,25 +127,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <!-- Additional execution profiles for different main classes -->
-    <profiles>
-        <profile>
-            <id>ui-v1</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <configuration>
-                            <mainClass>com.mechbuilder.ui.MechBuilderUI</mainClass>
-                            <includeProjectDependencies>true</includeProjectDependencies>
-                            <includePluginDependencies>false</includePluginDependencies>
-                            <classpathScope>compile</classpathScope>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
