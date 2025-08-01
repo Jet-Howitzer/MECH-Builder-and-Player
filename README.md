@@ -18,12 +18,7 @@ Before running this application, ensure you have the following installed:
   - Download from [Oracle](https://www.oracle.com/java/technologies/javase-downloads.html) or [OpenJDK](https://openjdk.org/)
   - Verify installation: `java -version`
 
-- **Apache Maven 3.6 or higher**
-  - Download from [Maven Downloads](https://maven.apache.org/download.cgi)
-  - **macOS**: Install with Homebrew: `brew install maven`
-  - **Windows**: Use Chocolatey: `choco install maven` or download manually
-  - **Linux**: Use package manager: `sudo apt install maven` (Ubuntu/Debian)
-  - Verify installation: `mvn -version`
+**Note**: Maven is NOT required! This project includes a Maven wrapper that automatically downloads the correct Maven version.
 
 ## 🛠️ Installation & Setup
 
@@ -36,29 +31,28 @@ cd mech-builder-and-player
 ### 2. Build the Project
 ```bash
 # Compile the project and download dependencies
-mvn clean compile
+./mvnw clean compile
 
-# Run tests (when available)
-mvn test
+# Run tests
+./mvnw test
 
 # Package the application into a JAR file
-mvn package
+./mvnw package
 ```
+
+**Windows users**: Replace `./mvnw` with `mvnw.cmd` in all commands above.
 
 ## ▶️ Running the Application
 
-### Option 1: Run with Maven (Recommended)
+### Option 1: Run with Maven Wrapper (Recommended)
 ```bash
-# Run the unified UI version
-mvn exec:java
-
-# Run the original UI version
-mvn exec:java -P ui-v1
+# Run the application
+./mvnw exec:java
 ```
 
 ### Option 2: Run from JAR
 ```bash
-# After running mvn package, use the fat JAR with all dependencies
+# After running ./mvnw package, use the fat JAR with all dependencies
 java -jar target/mech-builder-and-player-1.0.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
@@ -113,12 +107,12 @@ To add new mechs or weapons:
 
 1. **New Mech Chassis**: Edit `src/main/resources/Mech Loadout Data.csv`
 2. **New Weapons**: Edit `src/main/resources/Weaponry Components.csv`
-3. **Rebuild**: Run `mvn clean compile` to incorporate changes
+3. **Rebuild**: Run `./mvnw clean compile` to incorporate changes
 
 ### Building for Distribution
 ```bash
 # Create a fat JAR with all dependencies included
-mvn clean package
+./mvnw clean package
 
 # The executable JAR will be created at:
 # target/mech-builder-and-player-1.0.0-SNAPSHOT-jar-with-dependencies.jar
@@ -130,24 +124,24 @@ mvn clean package
 
 **"Resource not found" Error**
 - Ensure CSV files are in `src/main/resources/`
-- Rebuild the project: `mvn clean compile`
+- Rebuild the project: `./mvnw clean compile`
 
 **Java Version Issues**
 - Verify Java 11+ is installed: `java -version`
 - Check JAVA_HOME environment variable
 
-**Maven Build Failures**
-- Ensure Maven is properly installed: `mvn -version`
-- Clear Maven cache: `mvn dependency:purge-local-repository`
+**Build Failures**
+- Try cleaning and rebuilding: `./mvnw clean compile`
+- Clear Maven cache: `./mvnw dependency:purge-local-repository`
 
 **Application Won't Start**
 - Check console output for specific error messages
-- Ensure all dependencies are resolved: `mvn dependency:tree`
+- Ensure all dependencies are resolved: `./mvnw dependency:tree`
 
 ### Getting Help
 1. Check the console output for detailed error messages
 2. Verify all prerequisites are installed correctly
-3. Try running `mvn clean compile` to refresh dependencies
+3. Try running `./mvnw clean compile` to refresh dependencies
 
 ## 🏗️ Architecture
 
