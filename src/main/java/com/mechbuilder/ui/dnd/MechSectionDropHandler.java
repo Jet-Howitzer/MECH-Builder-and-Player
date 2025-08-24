@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * TransferHandler for mech sections that can receive weapon drops.
@@ -23,6 +25,7 @@ public class MechSectionDropHandler extends TransferHandler {
     private final java.util.Map<Integer, WeaponComponent> equippedWeapons = new java.util.HashMap<>();
     
     private final Color originalBackground;
+    private Runnable onWeaponsChangedCallback;
     
     public MechSectionDropHandler(MechSection mechSection, JPanel sectionPanel) {
         this.mechSection = mechSection;
@@ -150,6 +153,7 @@ public class MechSectionDropHandler extends TransferHandler {
                 equippedWeapons.put(slotIndex, weapon);
                 System.out.println("Added " + weapon.getName() + " to " + mechSection.getName() + 
                                  " (" + equippedWeapons.size() + "/" + getTotalHardpoints() + " slots used)");
+                notifyWeaponsChanged();
                 return true;
             }
         }
@@ -179,44 +183,58 @@ public class MechSectionDropHandler extends TransferHandler {
      * Update the visual display of this section
      */
     private void updateSectionDisplay() {
-        // Find compact drop zones and update them with equipped weapons
+        // Find weapon slot drop zones specifically by looking for components with slot labels
         Component[] components = sectionPanel.getComponents();
         int slotIndex = 0;
         
         for (Component comp : components) {
-            if (comp instanceof JPanel && (comp.getBackground().equals(new Color(250, 250, 250)) || 
-                                           comp.getBackground().equals(new Color(230, 255, 230)))) {
-                JPanel dropZone = (JPanel) comp;
+            if (comp instanceof JPanel) {
+                JPanel panel = (JPanel) comp;
                 
-                // Find the center label component
-                Component[] dropZoneComponents = dropZone.getComponents();
-                for (Component dzComp : dropZoneComponents) {
-                    if (dzComp instanceof JLabel && !((JLabel) dzComp).getText().matches("\\d+:")) {
-                        JLabel centerLabel = (JLabel) dzComp;
-                        
-                        // Check if this slot has a weapon
-                        WeaponComponent weapon = equippedWeapons.get(slotIndex);
-                        if (weapon != null) {
-                            // Show equipped weapon
-                            centerLabel.setText(weapon.getName());
-                            centerLabel.setFont(centerLabel.getFont().deriveFont(Font.BOLD, 9f));
-                            centerLabel.setForeground(Color.BLACK);
-                            dropZone.setBackground(new Color(230, 255, 230)); // Light green
-                        } else {
-                            // Show empty slot
-                            centerLabel.setText("Drop weapon here");
-                            centerLabel.setFont(centerLabel.getFont().deriveFont(Font.ITALIC, 9f));
-                            centerLabel.setForeground(Color.LIGHT_GRAY);
-                            dropZone.setBackground(new Color(250, 250, 250)); // Default
-                        }
-                        
-                        slotIndex++;
+                // Check if this panel contains a weapon slot label (1:, 2:, etc.)
+                boolean isWeaponSlot = false;
+                Component[] panelComponents = panel.getComponents();
+                for (Component pComp : panelComponents) {
+                    if (pComp instanceof JLabel && ((JLabel) pComp).getText().matches("\\d+:")) {
+                        isWeaponSlot = true;
                         break;
                     }
                 }
                 
-                dropZone.revalidate();
-                dropZone.repaint();
+                // Only process weapon slot panels
+                if (isWeaponSlot) {
+                    // Find the center label component (the placeholder text)
+                    for (Component dzComp : panelComponents) {
+                        if (dzComp instanceof JLabel && !((JLabel) dzComp).getText().matches("\\d+:")) {
+                            JLabel centerLabel = (JLabel) dzComp;
+                            
+                            // Check if this slot has a weapon
+                            WeaponComponent weapon = equippedWeapons.get(slotIndex);
+                            if (weapon != null) {
+                                // Show equipped weapon
+                                centerLabel.setText(weapon.getName());
+                                centerLabel.setFont(centerLabel.getFont().deriveFont(Font.BOLD, 9f));
+                                centerLabel.setForeground(Color.BLACK);
+                                panel.setBackground(new Color(230, 255, 230)); // Light green
+                                // Add tooltip for equipped weapon
+                                panel.setToolTipText("Double-click to remove " + weapon.getName());
+                            } else {
+                                // Show empty weapon slot
+                                centerLabel.setText("Drop weapon here");
+                                centerLabel.setFont(centerLabel.getFont().deriveFont(Font.ITALIC, 9f));
+                                centerLabel.setForeground(new Color(139, 0, 0)); // Dark red
+                                panel.setBackground(new Color(255, 240, 240)); // Light red
+                                panel.setToolTipText("Double-click to remove weapon");
+                            }
+                            
+                            slotIndex++;
+                            break;
+                        }
+                    }
+                    
+                    panel.revalidate();
+                    panel.repaint();
+                }
             }
         }
         
@@ -231,6 +249,7 @@ public class MechSectionDropHandler extends TransferHandler {
         if (removedWeapon != null) {
             updateSectionDisplay();
             System.out.println("Removed " + removedWeapon.getName() + " from " + mechSection.getName());
+            notifyWeaponsChanged();
         }
     }
     
@@ -239,6 +258,54 @@ public class MechSectionDropHandler extends TransferHandler {
      */
     public WeaponComponent getWeaponInSlot(int slotIndex) {
         return equippedWeapons.get(slotIndex);
+    }
+    
+    /**
+     * Get all currently equipped weapons in this section
+     */
+    public List<WeaponComponent> getEquippedWeapons() {
+        return new ArrayList<>(equippedWeapons.values());
+    }
+    
+    /**
+     * Calculate the total tonnage of equipped items in this section
+     */
+    public double getEquippedTonnage() {
+        double totalTonnage = 0.0;
+        for (WeaponComponent weapon : equippedWeapons.values()) {
+            totalTonnage += weapon.getTonnage();
+        }
+        return totalTonnage;
+    }
+    
+    /**
+     * Get the number of equipped items in this section
+     */
+    public int getEquippedCount() {
+        return equippedWeapons.size();
+    }
+    
+    /**
+     * Get the section panel for UI operations
+     */
+    public JPanel getSectionPanel() {
+        return sectionPanel;
+    }
+    
+    /**
+     * Set callback to be called when weapons change
+     */
+    public void setOnWeaponsChangedCallback(Runnable callback) {
+        this.onWeaponsChangedCallback = callback;
+    }
+    
+    /**
+     * Notify that weapons have changed
+     */
+    private void notifyWeaponsChanged() {
+        if (onWeaponsChangedCallback != null) {
+            onWeaponsChangedCallback.run();
+        }
     }
     
     /**
@@ -257,6 +324,18 @@ public class MechSectionDropHandler extends TransferHandler {
             public void mouseReleased(MouseEvent e) {
                 if (e.isPopupTrigger()) {
                     showContextMenu(e, slotIndex);
+                }
+            }
+            
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Double-click to remove weapon
+                if (e.getClickCount() == 2) {
+                    WeaponComponent weapon = equippedWeapons.get(slotIndex);
+                    if (weapon != null) {
+                        removeWeapon(slotIndex);
+                        System.out.println("Double-clicked to remove " + weapon.getName() + " from " + mechSection.getName());
+                    }
                 }
             }
         });
